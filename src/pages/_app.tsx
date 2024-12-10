@@ -5,6 +5,8 @@ import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 import darkTheme from "@/theme/darkTheme";
 import lightTheme from "@/theme/lightTheme";
+import Header from "@/components/Header/Header";
+import Layout from "@/components/Layout";
 
 export const ColorModeContext = React.createContext({
   toggleColorMode: () => {},
@@ -41,7 +43,10 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
       <ThemeProvider theme={mode === 'dark' ? darkThemeChosen : lightThemeChosen}>
         <SessionProvider session={session}>
           <CssBaseline />
+          <Header/>
+          <Layout>
           <Component {...pageProps} />
+          </Layout>
         </SessionProvider>
       </ThemeProvider>
     </ColorModeContext.Provider>
