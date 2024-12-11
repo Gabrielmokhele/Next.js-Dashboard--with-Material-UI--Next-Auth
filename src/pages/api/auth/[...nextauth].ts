@@ -6,6 +6,7 @@ import LinkedInProvider from "next-auth/providers/linkedin";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions: NextAuthOptions = {
+  debug: true,
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -55,8 +56,8 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.LINKEDIN_CLIENT_SECRET as string
     }),
     
-
   ],
+  secret: process.env.NEXTAUTH_SECRET as string,
 };
 
 export default NextAuth(authOptions);

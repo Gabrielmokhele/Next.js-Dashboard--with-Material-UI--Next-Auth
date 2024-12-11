@@ -4,7 +4,7 @@ const lightTheme: ThemeOptions = {
   palette: {
     mode: 'light',
     primary: {
-      main: '#f50057', // Base primary color
+      main: '#f50057', 
     },
     secondary: {
       main: '#2979ff',
@@ -14,23 +14,21 @@ const lightTheme: ThemeOptions = {
     },
   },
   components: {
-    // Example for applying gradient to Button using primary color
     MuiButton: {
       styleOverrides: {
         root: {
-          background: 'linear-gradient(135deg, #6a82fb, #fc5c7d)', // Gradient applied here
-          color: '#fff', // Optional: Set text color to white for contrast
+          background: 'linear-gradient(135deg, #6a82fb, #fc5c7d)', 
+          color: '#fff', 
           '&:hover': {
-            background: 'linear-gradient(135deg, #6a82fb, #fc5c7d)', // Gradient on hover
+            background: 'linear-gradient(135deg, #6a82fb, #fc5c7d)', 
           },
         },
       },
     },
-    // You can apply a similar gradient style to other components as needed
     MuiAppBar: {
       styleOverrides: {
         root: {
-          background: 'linear-gradient(135deg, #6a82fb, #fc5c7d)', // Gradient on AppBar
+          background: 'linear-gradient(135deg, #6a82fb, #fc5c7d)', 
         },
       },
     },

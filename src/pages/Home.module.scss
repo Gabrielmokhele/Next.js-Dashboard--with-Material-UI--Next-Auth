@@ -30,10 +30,40 @@
 .layout {
     margin: auto;
     max-width: 85rem;
-    padding: 0 24px 0 80px;
 
     @media screen and (min-width: 1700px) {
-        padding: 0 24px 0 0;
         max-width: 92rem;
+    }
+}
+
+.dataCard {
+    position: relative ;
+    top: "1rem";
+    height: "100%";
+    width: calc(100% - 0.1rem);
+    padding: 1rem 0.5rem;
+
+    p {
+        padding: 0.5rem 1rem;
+        margin: 0;
+    }
+}
+
+.dataRibbon {
+    display: grid;
+    text-align: center;
+    grid-template-columns: 1fr;
+
+    @media screen and (min-width: 768px ) {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+
+    button, p {
+        padding: 0.25rem;
     }
 }

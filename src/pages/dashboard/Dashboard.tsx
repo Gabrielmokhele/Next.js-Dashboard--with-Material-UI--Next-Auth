@@ -1,34 +1,20 @@
-import { Box, Grid, Paper } from '@mui/material';
-import React from 'react';
-import scss from '../Home.module.scss';
+import React from "react";
+import { Box } from "@mui/material";
+import DataRibbon from "@/components/Dashboard/DataRibbon";
+import TransactionsPerDay from "../../components/Dashboard/TransactionsPerDay";
+import TransactionBottomRow from "@/components/Dashboard/TransactionBottomRow";
+import Grid from "@mui/material/Grid";
 
 const Dashboard = () => {
   return (
     <Box>
-      <Grid container gap={2} className={scss.topCardContainer}>
-        <Grid>
-          <Paper className={scss.dataCard}> 
-            xs=4
-          </Paper>
-        </Grid>
-        <Grid>
-          <Paper className={scss.dataCard}> 
-            xs=4
-          </Paper>
-        </Grid>
-        <Grid>
-          <Paper className={scss.dataCard}> 
-            xs=4
-          </Paper>
-        </Grid>
+      <Grid container gap={4} marginTop={2}>
+        <DataRibbon />
+        <TransactionsPerDay />
       </Grid>
-      <Grid xs={12} marginY={2}>
-        <Paper className={scss.dataCard}> 
-          xs=12
-        </Paper>
-      </Grid>
+      <TransactionBottomRow />
     </Box>
-  )
-}
-
+  );
+};
 export default Dashboard;
+
