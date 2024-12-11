@@ -12,12 +12,7 @@ export type TransactionCardType = {
   changeValue: string;
 };
 
-export type TransactionCardTypeProps = {
-  data: TransactionCardType;
-};
-
-const TransactionsPerDay = (props: TransactionCardTypeProps) => {
-  const {data} = props
+const TransactionsPerDay = () => {
   const theme = useTheme();
 
   return (

@@ -17,7 +17,7 @@ export const lightOptions: ChartConfiguration["options"] = {
   plugins: {
     legend: {
       labels: {
-        color: "#000",
+        color: "#000000",
       },
     },
   },

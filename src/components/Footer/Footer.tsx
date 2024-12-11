@@ -22,7 +22,7 @@ const Footer = () => {
             <FooterLink href={"/"}>Home</FooterLink>
           </li>
           <li>
-            <FooterLink href={"/dashboard/data"}>Data</FooterLink>
+            <FooterLink href={"/dashboard/analytics"}>Analytics</FooterLink>
           </li>
           <li>
             <FooterLink href={"/dashboard/profile"}>Profile</FooterLink>

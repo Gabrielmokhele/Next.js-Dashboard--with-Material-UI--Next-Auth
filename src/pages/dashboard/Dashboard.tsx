@@ -10,7 +10,7 @@ const Dashboard = () => {
     <Box>
       <Grid container gap={4} marginTop={2}>
         <DataRibbon />
-        <TransactionsPerDay />
+        <TransactionsPerDay  />
       </Grid>
       <TransactionBottomRow />
     </Box>

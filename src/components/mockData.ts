@@ -1,25 +1,27 @@
 import { months } from "../helper/Util";
 
 export const lineChartData = {
-  labels: months({ count: 12 }),
+  labels: months({ count: 12 }), // Assuming 'months' is a function or array
   datasets: [
     {
-      label: "Transactions",
+      label: 'Transactions',
       data: [65, 59, 80, 81, 56, 55, 60, 49, 112, 72, 52, 43],
       fill: false,
-      borderColor: "rgb(75, 192, 192)",
+      borderColor: '#fc5c7d',
       tension: 0.1,
+      hoverOffset: 4,
     },
   ],
 };
 
+
 export const doughnutChartData = {
-  labels: ["Red", "Blue", "Yellow"],
+  labels: ["Pink", "Purple", "Yellow"],
   datasets: [
     {
       label: "Transaction Dataset",
       data: [300, 50, 100],
-      backgroundColor: ["rgb(255,137,168)", "rgb(178,3,106)", "rgb(165,7,42)"],
+      backgroundColor: ["#fc5c7d", " #6a82fb", "#FFFF00"],
       hoverOffset: 4,
     },
   ],
