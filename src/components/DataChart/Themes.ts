@@ -7,17 +7,23 @@ export const lightOptions: ChartConfiguration["options"] = {
       grid: {
         color: "#d3d3d3",
       },
+      ticks: {
+        color: "#b1aeaf", 
+      }
     },
     x: {
       grid: {
         color: "#d3d3d3",
       },
+      ticks: {
+        color: "#b1aeaf", 
+      }
     },
   },
   plugins: {
     legend: {
       labels: {
-        color: "#000000",
+        color: "#b1aeaf",
       },
     },
   },
@@ -46,7 +52,7 @@ export const darkOptions: ChartConfiguration["options"] = {
   plugins: {
     legend: {
       labels: {
-        color: "#fff",
+        color: "#fc5c7d",
       },
     },
   },
