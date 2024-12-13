@@ -1,14 +1,26 @@
-import { Stack, Typography, TextField, Card  } from "@mui/material";
-import React,{} from "react";
+import { Stack, Typography, TextField, Card } from "@mui/material";
+import React, { useState } from "react";
 import MultipleSelectPlaceholder from "./components/MultipleSelectPlaceholder";
 import UploadAttachment from "./components/UploadAttachment";
 
+const CreateTicket = () => {
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
 
-const createticket = () => {
+  const handleSelectionChange = (value: string | null) => {
+    setSelectedOption(value);
+  };
 
-
-
+  const textFieldStyles = {
+    "& .MuiOutlinedInput-root": {
+      "&.Mui-focused fieldset": {
+        borderColor: "#04dead",
+      },
+    },
+    "& .MuiInputLabel-root.Mui-focused": {
+      color: "#04dead",
+    },
+  };
 
   return (
     <Stack>
@@ -17,84 +29,42 @@ const createticket = () => {
           Create Ticket
         </Typography>
 
-        {/* Stack for Name and Surname */}
         <Stack direction="row" spacing={2} sx={{ ml: 2, mt: 1 }}>
           <TextField
             label="First Name"
             variant="outlined"
-            sx={{
-              width: "50%",
-              "& .MuiOutlinedInput-root": {
-                "&.Mui-focused fieldset": {
-                  borderColor: "blue",
-                },
-              },
-              "& .MuiInputLabel-root.Mui-focused": {
-                color: "blue",
-              },
-            }}
+            sx={{ width: "50%", ...textFieldStyles }}
           />
           <TextField
             label="Surname"
             variant="outlined"
-            sx={{
-              width: "48%",
-              "& .MuiOutlinedInput-root": {
-                "&.Mui-focused fieldset": {
-                  borderColor: "blue",
-                },
-              },
-              "& .MuiInputLabel-root.Mui-focused": {
-                color: "blue",
-              },
-            }}
+            sx={{ width: "48%", ...textFieldStyles }}
           />
         </Stack>
 
         {/* Email TextField */}
         <TextField
-          id="outlined-basic"
           label="Email"
           variant="outlined"
-          sx={{
-            ml: 2,
-            mt: 2,
-            width: "98%",
-            "& .MuiOutlinedInput-root": {
-              "&.Mui-focused fieldset": {
-                borderColor: "blue",
-              },
-            },
-            "& .MuiInputLabel-root.Mui-focused": {
-              color: "blue",
-            },
-          }}
+          sx={{ ml: 2, mt: 2, width: "98%", ...textFieldStyles }}
         />
 
-        <MultipleSelectPlaceholder />
-        <TextField
-          id="outlined-multiline-static"
-          label="Description"
-          multiline
-          rows={4}
-          sx={{
-            ml: 2,
-            mt: 2,
-            width: "98%",
-            "& .MuiOutlinedInput-root": {
-              "&.Mui-focused fieldset": {
-                borderColor: "blue",
-              },
-            },
-            "& .MuiInputLabel-root.Mui-focused": {
-              color: "blue",
-            },
-          }}
-        />
-        <UploadAttachment/>
+        <MultipleSelectPlaceholder onChange={handleSelectionChange} />
+
+        {selectedOption && (
+          <>
+            <TextField
+              label="Description"
+              multiline
+              rows={4}
+              sx={{ ml: 2, mt: 2, width: "98%", ...textFieldStyles }}
+            />
+            <UploadAttachment />
+          </>
+        )}
       </Card>
     </Stack>
   );
 };
 
-export default createticket;
+export default CreateTicket;

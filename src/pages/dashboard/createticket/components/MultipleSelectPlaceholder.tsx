@@ -1,98 +1,71 @@
-import * as React from "react";
+import React from "react";
+import { Select, MenuItem, FormControl, OutlinedInput } from "@mui/material";
 import { Theme, useTheme } from "@mui/material/styles";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { SelectChangeEvent } from "@mui/material/Select";
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
+interface MultipleSelectPlaceholderProps {
+  onChange: (value: string | null) => void;
+}
 
 const names = [
-    "Software(Node,1Stream, etc)",
-    "Hardware(Printer, Monitor, etc)",
-    "Network",
-    "Email",
-    "Other",
+  "Software(Node,1Stream, etc)",
+  "Hardware(Printer, Monitor, etc)",
+  "Network",
+  "Email",
+  "Other",
 ];
 
-function getStyles(name: string, personName: readonly string[], theme: Theme) {
+function getStyles(name: string, personName: string | null, theme: Theme) {
   return {
-    fontWeight: personName.includes(name)
-      ? theme.typography.fontWeightMedium
-      : theme.typography.fontWeightRegular,
+    fontWeight: personName === name ? theme.typography.fontWeightMedium : theme.typography.fontWeightRegular,
   };
 }
 
-export default function MultipleSelectPlaceholder() {
+const MultipleSelectPlaceholder: React.FC<MultipleSelectPlaceholderProps> = ({ onChange }) => {
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState<string[]>([]);
+  const [personName, setPersonName] = React.useState<string | null>("");
 
-  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+  const handleChange = (event: SelectChangeEvent<string | null>) => {
+    const selectedValue = event.target.value;
+    setPersonName(selectedValue);
+    onChange(selectedValue); 
   };
 
   return (
-    <div>
-      <FormControl
-        sx={{
-          ml: 2,
-          mt: 2,
-          width: "98%",
-          "& .MuiOutlinedInput-root": {
-            "&.Mui-focused fieldset": {
-              borderColor: "blue",
-            },
+    <FormControl
+      sx={{
+        ml: 2,
+        mt: 2,
+        width: "98%",
+        "& .MuiOutlinedInput-root": {
+          "&.Mui-focused fieldset": {
+            borderColor: "#04dead",
           },
-          "& .MuiInputLabel-root.Mui-focused": {
-            color: "blue",
-          },
-        }}
+        },
+        "& .MuiInputLabel-root.Mui-focused": {
+          color: "#04dead",
+        },
+      }}
+    >
+      <Select
+        value={personName}
+        onChange={handleChange}
+        input={<OutlinedInput />}
+        displayEmpty
+        renderValue={(selected) => (selected ? selected : <em>Select your problem</em>)}
+        inputProps={{ "aria-label": "Without label" }}
       >
-        <Select
-          multiple
-          displayEmpty
-          value={personName}
-          onChange={handleChange}
-          input={<OutlinedInput />}
-          renderValue={(selected) => {
-            if (selected.length === 0) {
-              return <em>Select your problem</em>;
-            }
-
-            return selected.join(", ");
-          }}
-          MenuProps={MenuProps}
-          inputProps={{ "aria-label": "Without label" }}
-        >
-          <MenuItem disabled value="">
-            <em>None</em>
+        <MenuItem disabled value="">
+          <em>None</em>
+        </MenuItem>
+        {names.map((name) => (
+          <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+            {name}
           </MenuItem>
-          {names.map((name) => (
-            <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, personName, theme)}
-            >
-              {name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
+        ))}
+      </Select>
+    </FormControl>
   );
-}
+};
+
+export default MultipleSelectPlaceholder;
