@@ -17,10 +17,11 @@ const lightTheme: ThemeOptions = {
     MuiButton: {
       styleOverrides: {
         root: {
-          background: 'linear-gradient(135deg, #6a82fb, #fc5c7d)', 
-          color: '#fff', 
+          background: 'radial-gradient(862px at 6% 18%, rgb(21, 219, 149) 9.4%, rgb(26, 35, 160) 83.6%);', 
+          color: '#fff',
+          border:'none', 
           '&:hover': {
-            background: 'linear-gradient(135deg, #6a82fb, #fc5c7d)', 
+            background: 'radial-gradient(862px at 6% 18%, rgb(21, 219, 149) 9.4%, rgb(26, 35, 160) 83.6%);', 
           },
         },
       },
@@ -28,7 +29,7 @@ const lightTheme: ThemeOptions = {
     MuiAppBar: {
       styleOverrides: {
         root: {
-          background: 'linear-gradient(135deg, #6a82fb, #fc5c7d)', 
+          background: 'radial-gradient(862px at 6% 18%, rgb(21, 219, 149) 9.4%, rgb(26, 35, 160) 83.6%);', 
         },
       },
     },

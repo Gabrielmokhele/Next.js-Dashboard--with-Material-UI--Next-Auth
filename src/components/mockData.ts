@@ -7,7 +7,7 @@ export const lineChartData = {
       label: 'Transactions',
       data: [65, 59, 80, 81, 56, 55, 60, 49, 112, 72, 52, 43],
       fill: false,
-      borderColor: '#fc5c7d',
+      borderColor: '#2eb872',
       tension: 0.1,
       hoverOffset: 4,
     },
@@ -16,12 +16,12 @@ export const lineChartData = {
 
 
 export const doughnutChartData = {
-  labels: ["Pink", "Purple", "Yellow"],
+  labels: ["Vivid cyan", "blue", "Medium Sea Green"],
   datasets: [
     {
       label: "Transaction Dataset",
       data: [300, 50, 100],
-      backgroundColor: ["#fc5c7d", " #6a82fb", "#FFFF00"],
+      backgroundColor: ["#04dead", " #3b50b2", "#2eb872"],
       hoverOffset: 4,
     },
   ],

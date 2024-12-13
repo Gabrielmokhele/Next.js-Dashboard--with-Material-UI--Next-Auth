@@ -1,15 +1,15 @@
 import { CSSObject } from "@mui/system";
 import * as React from "react";
 import IconButton from "@mui/material/IconButton";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import Person2Icon from "@mui/icons-material/Person2";
-import EqualizerIcon from "@mui/icons-material/Equalizer";
 import { Settings } from "@mui/icons-material";
 import NextLink from "next/link";
 import scss from "./SideMenu.module.scss";
-import HomeIcon from "@mui/icons-material/Home";
+import { Dashboard } from "@mui/icons-material";
+import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
+import EditCalendarIcon from "@mui/icons-material/EditCalendar";
 
 import {
   Divider,
@@ -48,19 +48,24 @@ const closedMixin = (theme: Theme): CSSObject => ({
   },
 });
 
-const menuRouteList = ["", "analytics", "profile", "settings", ""];
+const menuRouteList = ["", "analytics", "createticket", "settings", ""];
 const menuListTranslations = [
   "Home",
   "Analytics",
-  "Profile",
+  "Create_Ticket",
   "Settings",
   "Sign Out",
 ];
 const menuListIcons = [
-  <HomeIcon />,
-  <EqualizerIcon />,
-  <Person2Icon />,
+  // eslint-disable-next-line react/jsx-key
+  <Dashboard />,
+  // eslint-disable-next-line react/jsx-key
+  <ConfirmationNumberIcon />,
+  // eslint-disable-next-line react/jsx-key
+  <EditCalendarIcon />,
+  // eslint-disable-next-line react/jsx-key
   <Settings />,
+  // eslint-disable-next-line react/jsx-key
   <ExitToAppIcon />,
 ];
 
@@ -105,11 +110,7 @@ const SideMenu = () => {
     >
       <div className={scss.drawerHeader}>
         <IconButton onClick={handleDrawerToggle}>
-          {theme.direction === "rtl" ? (
-            <ChevronRightIcon />
-          ) : (
-            <ChevronLeftIcon />
-          )}
+          {theme.direction === "rtl" ? <ChevronRightIcon /> : <MenuOpenIcon />}
         </IconButton>
       </div>
       <Divider />
