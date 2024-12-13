@@ -22,6 +22,13 @@ const darkTheme: ThemeOptions ={
         },
       },
     },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          background: 'linear-gradient(135deg, #6a82fb, #fc5c7d)', 
+        },
+      },
+    },
     
   },
 }

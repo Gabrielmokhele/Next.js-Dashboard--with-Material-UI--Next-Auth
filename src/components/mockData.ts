@@ -16,12 +16,12 @@ export const lineChartData = {
 
 
 export const doughnutChartData = {
-  labels: ["Pink", "Purple", "Yellow"],
+  labels: ["Vivid Red", "Purple", "Electric Violet"],
   datasets: [
     {
       label: "Transaction Dataset",
       data: [300, 50, 100],
-      backgroundColor: ["#fc5c7d", " #6a82fb", "#FFFF00"],
+      backgroundColor: ["#fc5c7d", " #9f5df1", "#f15deb"],
       hoverOffset: 4,
     },
   ],
