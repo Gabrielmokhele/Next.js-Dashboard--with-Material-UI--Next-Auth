@@ -52,35 +52,45 @@ const menuRouteList = ["", "analytics", "createticket", "settings", ""];
 const menuListTranslations = [
   "Home",
   "Analytics",
-  "Create_Ticket",
+  "Create Ticket",
   "Settings",
   "Sign Out",
 ];
 const menuListIcons = [
-  // eslint-disable-next-line react/jsx-key
-  <Dashboard />,
-  // eslint-disable-next-line react/jsx-key
-  <ConfirmationNumberIcon />,
-  // eslint-disable-next-line react/jsx-key
-  <EditCalendarIcon />,
-  // eslint-disable-next-line react/jsx-key
-  <Settings />,
-  // eslint-disable-next-line react/jsx-key
-  <ExitToAppIcon />,
+  <Dashboard key="dashboard" />,
+  <ConfirmationNumberIcon key="ticket" />,
+  <EditCalendarIcon key="calendar" />,
+  <Settings key="settings" />,
+  <ExitToAppIcon key="signout" />,
 ];
 
-const SideMenu = () => {
+interface SideMenuProps {
+  onOpenChange?: (isOpen: boolean) => void;
+}
+
+const SideMenu: React.FC<SideMenuProps> = ({ onOpenChange }) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const mobileCheck = useMediaQuery("(min-width: 600px)");
 
   const handleDrawerToggle = () => {
-    setOpen(!open);
+    const newOpenState = !open;
+    setOpen(newOpenState);
+    
+    // Notify parent component about the open state change
+    if (onOpenChange) {
+      onOpenChange(newOpenState);
+    }
   };
 
   const handleListItemButtonClick = (text: string) => {
     text === "Sign Out" ? signOut() : null;
     setOpen(false);
+    
+    // Notify parent component about the closed state
+    if (onOpenChange) {
+      onOpenChange(false);
+    }
   };
 
   return (
@@ -113,7 +123,6 @@ const SideMenu = () => {
           {theme.direction === "rtl" ? <ChevronRightIcon /> : <MenuOpenIcon />}
         </IconButton>
       </div>
-      <Divider />
       <Divider />
       <List>
         {menuListTranslations.map((text, index) => (

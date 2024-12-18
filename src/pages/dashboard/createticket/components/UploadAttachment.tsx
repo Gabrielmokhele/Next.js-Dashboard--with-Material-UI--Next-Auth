@@ -1,49 +1,37 @@
-import React, { useState } from 'react';
-import { Button, Stack, Typography } from '@mui/material';
+import React from "react";
+import { Button, Stack, Typography } from "@mui/material";
 
-const UploadAttachment: React.FC = () => {
-  // State to hold the selected file
-  const [file, setFile] = useState<File | null>(null);
+interface UploadAttachmentProps {
+  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  files: File[];
+}
 
-  // Handle file selection
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setFile(event.target.files[0]); // Get the first file selected
-    }
-  };
-
-  // Handle the file upload (can be extended to upload the file to a server)
-  const handleUpload = () => {
-    if (file) {
-      alert(`File selected: ${file.name}`);
-    } else {
-      alert('No file selected.');
-    }
-  };
-
+const UploadAttachment: React.FC<UploadAttachmentProps> = ({ handleFileChange, files }) => {
   return (
-    <Stack spacing={2} sx={{   ml: 2,
-        mt: 2, }}>
-      <Typography variant="h6">Upload Attachment</Typography>
-      
-      {/* File input button */}
-      <Button
-        variant="outlined"
-        component="label"
-        sx={{ width: '200px' }}
-      >
-        Choose File
+    <Stack spacing={2} sx={{ ml: 2, mt: 2 }}>
+      <Typography variant="h6">Upload Attachments</Typography>
+
+      <Button variant="outlined" component="label" sx={{ width: "200px" }}>
+        Choose Files
         <input
           type="file"
+          multiple
           hidden
-          onChange={handleFileChange}
+          onChange={handleFileChange} // Handle multiple file selection
         />
       </Button>
-      
-      {/* Display file name if selected */}
-      {file && <Typography variant="body2">Selected File: {file.name}</Typography>}
-      
-      {/* Upload button */}
+
+      {/* Display the list of selected files */}
+      {files.length > 0 && (
+        <Stack>
+          <Typography variant="body1" sx={{fontWeight:'bold'}}>Selected Files:</Typography>
+          {files.map((file, index) => (
+            <Typography key={index} variant="body2">
+              {file.name}
+            </Typography>
+          ))}
+        </Stack>
+      )}
     </Stack>
   );
 };

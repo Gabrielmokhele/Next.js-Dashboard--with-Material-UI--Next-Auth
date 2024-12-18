@@ -3,16 +3,16 @@ import { Select, MenuItem, FormControl, OutlinedInput } from "@mui/material";
 import { Theme, useTheme } from "@mui/material/styles";
 import { SelectChangeEvent } from "@mui/material/Select";
 
-interface MultipleSelectPlaceholderProps {
+interface MultipleSelectDepartment {
   onChange: (value: string | null) => void;
 }
 
 const names = [
-  "Software(Node,1Stream, etc)",
-  "Hardware(Printer, Monitor, etc)",
-  "Network",
-  "Email",
-  "Other",
+  "Call Center",
+  "IT",
+  "Human Resources",
+  "Finance",
+  "Quality Assurance",
 ];
 
 function getStyles(name: string, personName: string | null, theme: Theme) {
@@ -21,13 +21,13 @@ function getStyles(name: string, personName: string | null, theme: Theme) {
   };
 }
 
-const MultipleSelectPlaceholder: React.FC<MultipleSelectPlaceholderProps> = ({ onChange }) => {
+const MultipleSelectDepartment: React.FC<MultipleSelectDepartment> = ({ onChange }) => {
   const theme = useTheme();
-  const [Name, setName] = React.useState<string | null>("");
+  const [departmentName, setdepartmentName] = React.useState<string | null>("");
 
   const handleChange = (event: SelectChangeEvent<string | null>) => {
     const selectedValue = event.target.value;
-    setName(selectedValue);
+    setdepartmentName(selectedValue);
     onChange(selectedValue); 
   };
 
@@ -48,18 +48,18 @@ const MultipleSelectPlaceholder: React.FC<MultipleSelectPlaceholderProps> = ({ o
       }}
     >
       <Select
-        value={Name}
+        value={departmentName}
         onChange={handleChange}
         input={<OutlinedInput />}
         displayEmpty
-        renderValue={(selected) => (selected ? selected : <em>Select your problem</em>)}
+        renderValue={(selected) => (selected ? selected : <em>Select your Department</em>)}
         inputProps={{ "aria-label": "Without label" }}
       >
         <MenuItem disabled value="">
           <em>None</em>
         </MenuItem>
         {names.map((name) => (
-          <MenuItem key={name} value={name} style={getStyles(name, Name, theme)}>
+          <MenuItem key={name} value={name} style={getStyles(name, departmentName, theme)}>
             {name}
           </MenuItem>
         ))}
@@ -68,4 +68,5 @@ const MultipleSelectPlaceholder: React.FC<MultipleSelectPlaceholderProps> = ({ o
   );
 };
 
-export default MultipleSelectPlaceholder;
+export default MultipleSelectDepartment;
+

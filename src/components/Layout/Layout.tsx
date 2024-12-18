@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import scss from "../../pages/Home.module.scss";
 import { useSession } from 'next-auth/react';
 import SideMenu from '../SideMenu';
 import Head from "next/head";
-import Footer from '../Footer';
+
+const drawerWidth = 240;
 
 const Layout = (props: any) => {
     const {data: session} = useSession();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const handleMenuOpenChange = (open: boolean) => {
+        setIsMenuOpen(open);
+    };
 
   return (
     <>
@@ -17,10 +23,13 @@ const Layout = (props: any) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-    <main className={scss.layout}>
-        {session && <SideMenu />}
+    <main className={scss.layout} style={{
+        position: 'relative',
+        transition: 'padding-left 225ms cubic-bezier(0, 0, 0.2, 1) 0ms',
+        paddingLeft: session && isMenuOpen ? `${drawerWidth}px` : '0px'
+    }}>
+        {session && <SideMenu onOpenChange={handleMenuOpenChange} />}
         {props.children}
-        <Footer/>
     </main>
     </>
   )
