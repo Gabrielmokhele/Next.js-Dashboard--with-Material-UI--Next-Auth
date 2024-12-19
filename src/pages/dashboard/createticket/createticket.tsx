@@ -23,12 +23,12 @@ const CreateTicket = () => {
   const [selectedDepartment, setSelectedDepartment] = useState<string | null>(
     null
   );
-  const [checkboxAnswers, setCheckboxAnswers] = useState<Record<string, boolean[]>>({});
+  const [checkboxAnswers, setCheckboxAnswers] = useState<Record<string, string[]>>({});
   const [firstName, setFirstName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [description, setDescription] = useState("");
-  const [files, setFiles] = useState<File[]>([]); // Array to hold multiple files
+  const [files, setFiles] = useState<File[]>([]); 
 
   // Validation states
   const [errors, setErrors] = useState({

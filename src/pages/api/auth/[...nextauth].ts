@@ -11,24 +11,44 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "Gabriel" },
-        password: { label: "Password", type: "password", placeholder: "wT5#@$%()nfff"},
+        email: { label: "Username", type: "text", placeholder: "Gabriel" },
+        password: { label: "Password", type: "password", placeholder: "wT5#@$%()nfff" },
       },
       async authorize(credentials) {
-        const { username, password } = credentials || {};
-        
-        if (username === "jsmith" && password === "password123") {
-          const user = {
-            id: "1",
-            name: "Gabriel",
-            email: "gabrielmokhele1999@gmail.com",
-          };
-          return user;  
-        } else {
-          return null;  
+        const { email, password } = credentials || {};
+
+        try {
+          const response = await fetch("http://localhost:5000/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+          });
+
+          if (!response.ok) {
+            throw new Error("Invalid credentials");
+          }
+
+          const data = await response.json();
+
+          if (data && data.id) {
+            return {
+              id: data.id,
+              username: data.username,
+              email: data.email,
+            };
+          } else {
+            return null;
+          }
+        } catch (error) {
+          console.error("Error during authentication:", error);
+          return null; 
         }
       },
     }),
+  
+  
     
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -58,6 +78,10 @@ export const authOptions: NextAuthOptions = {
     
   ],
   secret: process.env.NEXTAUTH_SECRET as string,
+
+  session: {
+    strategy: 'jwt', 
+  },
 };
 
 export default NextAuth(authOptions);
