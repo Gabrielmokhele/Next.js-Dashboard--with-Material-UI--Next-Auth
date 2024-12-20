@@ -1,41 +1,53 @@
-import React from "./index";
+import React from "react";
 import { Grid } from "@mui/material";
 import DataCard from "../DataCard";
 import scss from "./DataRibbon.module.scss";
 
 const DataRibbon = () => {
+  // These values would typically come from your API or state management
+  const ticketStats = {
+    unassigned: 42,
+    assigned: 78,
+    unresolved: 95,
+    resolved: 125,
+    rejected: 15
+  };
+
   return (
     <Grid container gap={2} className={scss.dataRibbon}>
       <Grid>
         <DataCard
-          title={"Total Sales"}
-          value={"462"}
-          description={
-            "The totals of all DataSoft products in the current financial year"
-          }
+          title="Unassigned Tickets"
+          value={ticketStats.unassigned.toString()}
+          description="Tickets that have not been assigned to any agent"
         />
       </Grid>
       <Grid>
         <DataCard
-          title={"Total Value"}
-          value={"$25,732.53"}
-          description={"The total sales of the current financial year"}
+          title="Assigned Tickets"
+          value={ticketStats.assigned.toString()}
+          description="Tickets currently assigned to support agents"
         />
       </Grid>
       <Grid>
         <DataCard
-          title={"Avg. Order Value"}
-          value={"$159.30"}
-          description={
-            "The average order value for all sales this current financial year"
-          }
+          title="Unresolved Tickets"
+          value={ticketStats.unresolved.toString()}
+          description="Total number of open tickets awaiting resolution"
         />
       </Grid>
       <Grid>
         <DataCard
-          title={"Conversion rate"}
-          value={"0.61%"}
-          description={"How many pitches become sales"}
+          title="Resolved Tickets"
+          value={ticketStats.resolved.toString()}
+          description="Tickets that have been successfully resolved"
+        />
+      </Grid>
+      <Grid>
+        <DataCard
+          title="Rejected Tickets"
+          value={ticketStats.rejected.toString()}
+          description="Tickets that have been rejected or cancelled"
         />
       </Grid>
     </Grid>

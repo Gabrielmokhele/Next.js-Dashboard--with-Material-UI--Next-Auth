@@ -1,9 +1,10 @@
 .dataRibbon {
   display: grid;
   text-align: center;
-  grid-template-columns: 1fr;
+  grid-template-columns: 0fr; /* Change from 0fr to 1fr for mobile */
+  gap: 1rem; /* Add some spacing between cards */
 
   @media screen and (min-width: 900px) {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(5, 1fr); /* Change to equal fractions */
   }
 }

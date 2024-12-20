@@ -19,40 +19,40 @@ const TransactionsPerDay = () => {
     <Grid container gap={2} className={scss.wrapper}>
       <Paper className={scss.transactions}>
         <div className={scss.chart}>
-          <Typography>TransActions per day</Typography>
-          <DataChart type={"line"} data={lineChartData} />
+          <Typography>Tickets per day</Typography>
+          <DataChart type ={"line"} data={lineChartData} />
         </div>
         <div className={scss.cardWrapper}>
           <Card className={scss.card} variant={"outlined"}>
             <div className={scss.cardTitle}>
-              <Typography>Total Products</Typography>
+              <Typography>Total Resolved</Typography>
             </div>
             <div className={scss.cardValue}>
-              <Typography>1.275</Typography>
+              <Typography>1,275</Typography>
               <Typography color={theme.palette.success.main} fontSize={14}>
-                428.7%
+                70.8%
               </Typography>
             </div>
           </Card>
           <Card className={scss.card} variant={"outlined"}>
             <div className={scss.cardTitle}>
-              <Typography>Buy-to-detail</Typography>
+              <Typography>Total Unresolved</Typography>
             </div>
             <div className={scss.cardValue}>
-              <Typography>4.40%</Typography>
-              <Typography color={theme.palette.success.main} fontSize={14}>
-                899.4%
+              <Typography>440</Typography>
+              <Typography color={theme.palette.warning.main} fontSize={14}>
+                24.4%
               </Typography>
             </div>
           </Card>
           <Card className={scss.card} variant={"outlined"}>
             <div className={scss.cardTitle}>
-              <Typography>Refunds</Typography>
+              <Typography>Total Rejected</Typography>
             </div>
             <div className={scss.cardValue}>
-              <Typography>0</Typography>
-              <Typography color={theme.palette.success.main} fontSize={14}>
-                0
+              <Typography>85</Typography>
+              <Typography color={theme.palette.error.main} fontSize={14}>
+                4.8%
               </Typography>
             </div>
           </Card>
