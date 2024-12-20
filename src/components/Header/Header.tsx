@@ -54,7 +54,7 @@ const Header = () => {
               textDecoration: "none",
             }}
           >
-             DataBit
+            TickeTrak
           </Typography>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
@@ -73,7 +73,7 @@ const Header = () => {
               textDecoration: "none",
             }}
           >
-            DataBit
+            TickeTrak
           </Typography>
           {tabletCheck && (<Box sx={{ paddingRight: 5, marginLeft: "auto" }}><Typography>Signed in as {session?.user?.email}</Typography></Box>)}
           <ThemeToggleButton />
