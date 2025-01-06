@@ -1,9 +1,8 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import CustomizedDialogs from "./components/CustomizedDialogs";
-import { color } from "chart.js/helpers";
 
 const Analytics = () => {
   const [selectedRow, setSelectedRow] = React.useState(null);
@@ -227,7 +226,8 @@ const Analytics = () => {
   };
 
   return (
-    <Box sx={{ height: 400, width: "100%", mt: 13 }}>
+    <Box sx={{ height: 400, width: "90%", mt: 13, ml:13 }}>
+      <Typography variant="h4" gutterBottom>  Tickets </Typography>
       <DataGrid
         rows={rows}
         columns={columns}

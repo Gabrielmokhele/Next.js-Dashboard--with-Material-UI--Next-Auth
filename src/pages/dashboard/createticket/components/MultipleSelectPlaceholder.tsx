@@ -2,34 +2,54 @@ import React from "react";
 import { Select, MenuItem, FormControl, OutlinedInput } from "@mui/material";
 import { Theme, useTheme } from "@mui/material/styles";
 import { SelectChangeEvent } from "@mui/material/Select";
-
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 interface MultipleSelectPlaceholderProps {
   onChange: (value: string | null) => void;
 }
 
-const names = [
-  "Software(Node,1Stream, etc)",
-  "Hardware(Printer, Monitor, etc)",
-  "Network",
-  "Email",
-  "Other",
-];
+const MultipleSelectPlaceholder: React.FC<MultipleSelectPlaceholderProps> = ({
+  onChange,
+}) => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["subjects"],
+    queryFn: () => axios.get("http://localhost:5000/subjects"),
+  });
 
-function getStyles(name: string, personName: string | null, theme: Theme) {
-  return {
-    fontWeight: personName === name ? theme.typography.fontWeightMedium : theme.typography.fontWeightRegular,
-  };
-}
+  const subjects = data?.data?.data || [];
 
-const MultipleSelectPlaceholder: React.FC<MultipleSelectPlaceholderProps> = ({ onChange }) => {
+  interface Subject {
+    subject: string;
+  }
+
+  const sub: (string | null)[] = subjects.map(
+    (s: Subject) => s?.subject || null
+  );
+
+  console.log("Subjects:", sub);
+
+  const names = sub;
+
+  function getStyles(name: string, personName: string | null, theme: Theme) {
+    return {
+      fontWeight:
+        personName === name
+          ? theme.typography.fontWeightMedium
+          : theme.typography.fontWeightRegular,
+    };
+  }
+
   const theme = useTheme();
   const [Name, setName] = React.useState<string | null>("");
 
   const handleChange = (event: SelectChangeEvent<string | null>) => {
     const selectedValue = event.target.value;
     setName(selectedValue);
-    onChange(selectedValue); 
+    onChange(selectedValue);
   };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading subjects</div>;
 
   return (
     <FormControl
@@ -52,14 +72,20 @@ const MultipleSelectPlaceholder: React.FC<MultipleSelectPlaceholderProps> = ({ o
         onChange={handleChange}
         input={<OutlinedInput />}
         displayEmpty
-        renderValue={(selected) => (selected ? selected : <em>Select your problem</em>)}
+        renderValue={(selected) =>
+          selected ? selected : <em>Select your problem</em>
+        }
         inputProps={{ "aria-label": "Without label" }}
       >
         <MenuItem disabled value="">
           <em>None</em>
         </MenuItem>
         {names.map((name) => (
-          <MenuItem key={name} value={name} style={getStyles(name, Name, theme)}>
+          <MenuItem
+            key={name}
+            value={name}
+            style={getStyles(name, Name, theme)}
+          >
             {name}
           </MenuItem>
         ))}

@@ -3,6 +3,7 @@ import scss from "../../pages/Home.module.scss";
 import { useSession } from 'next-auth/react';
 import SideMenu from '../SideMenu';
 import Head from "next/head";
+import Header from '../Header';
 
 const drawerWidth = 240;
 
@@ -27,7 +28,7 @@ const Layout = (props: any) => {
         position: 'relative',
         transition: 'padding-left 225ms cubic-bezier(0, 0, 0.2, 1) 0ms',
         paddingLeft: session && isMenuOpen ? `${drawerWidth}px` : '0px'
-    }}>
+    }}>    { session && <Header/>}
         {session && <SideMenu onOpenChange={handleMenuOpenChange} />}
         {props.children}
     </main>

@@ -11,6 +11,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
 
+
 export const ColorModeContext = React.createContext({
   toggleColorMode: () => {},
 });
@@ -47,7 +48,6 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
       <ThemeProvider theme={mode === 'dark' ? darkThemeChosen : lightThemeChosen}>
         <SessionProvider session={session}>
           <CssBaseline />
-          <Header/>
           <Layout>
           <Component {...pageProps} />
           </Layout>

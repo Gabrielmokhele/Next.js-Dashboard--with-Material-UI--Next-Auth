@@ -1,6 +1,6 @@
 .main {
-    padding: 0 25px;
-    margin:auto;
+    // // padding: 0 25px;
+    // margin:auto;
 }
 
 .topCardContainer {
@@ -29,10 +29,10 @@
 
 .layout {
     margin: auto;
-    max-width: 85rem;
+    max-width: 100rem;
 
     @media screen and (min-width: 1700px) {
-        max-width: 92rem;
+        max-width: 120rem;
     }
 }
 

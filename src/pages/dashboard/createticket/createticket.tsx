@@ -172,7 +172,7 @@ const CreateTicket = () => {
   };
 
   return (
-    <Stack mt={10}>
+    <Stack mt={10} ml={10}>
       <Typography variant="h4" p={2}>
         Create Ticket
       </Typography>

@@ -10,6 +10,7 @@ import scss from "./SideMenu.module.scss";
 import { Dashboard } from "@mui/icons-material";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 
 import {
   Divider,
@@ -48,11 +49,12 @@ const closedMixin = (theme: Theme): CSSObject => ({
   },
 });
 
-const menuRouteList = ["", "analytics", "createticket", "settings", ""];
+const menuRouteList = ["", "analytics", "createticket","questions", "settings", ""];
 const menuListTranslations = [
   "Home",
   "Analytics",
   "Create Ticket",
+  "Questions",
   "Settings",
   "Sign Out",
 ];
@@ -60,6 +62,7 @@ const menuListIcons = [
   <Dashboard key="dashboard" />,
   <ConfirmationNumberIcon key="ticket" />,
   <EditCalendarIcon key="calendar" />,
+  <QuestionAnswerIcon key="questions"/>,
   <Settings key="settings" />,
   <ExitToAppIcon key="signout" />,
 ];
