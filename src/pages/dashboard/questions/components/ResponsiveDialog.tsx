@@ -35,17 +35,15 @@ export default function ResponsiveDialog() {
   });
   const [subject, setSubject] = useState(""); // To store the subject input
 
-
   const buttonStyles = {
     background: "linear-gradient(258deg, #003fe9 0%, #26e6aa 100%)",
     color: "#fff",
     border: "none",
     "&:hover": {
-      background:"linear-gradient(71deg, #003fe9 0%, #26e6aa 100%)",
+      background: "linear-gradient(71deg, #003fe9 0%, #26e6aa 100%)",
     },
   };
 
- 
   const handleClickOpen = () => {
     setOpen(true);
   };

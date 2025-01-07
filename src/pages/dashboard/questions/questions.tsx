@@ -21,20 +21,21 @@ interface QuestionData {
 }
 
 export default function Questions() {
+  
   const { data: queryData, isLoading, error } = useQuery({
     queryKey: ['subject'],
     queryFn: () => axios.get("http://localhost:5000/QuestionsandSubjects"),
   });
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleString();
-  };
+  // const formatDate = (dateString: string) => {
+  //   const date = new Date(dateString);
+  //   return date.toLocaleString();
+  // };
 
   const columns: GridColDef[] = [
     {
       field: "subjectName", // Changed from 'subject' to 'subjectName'
-      headerName: "Subject(s)",
+      headerName: "Category",
       width: 200,
     },
     {

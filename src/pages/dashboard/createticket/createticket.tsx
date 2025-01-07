@@ -11,8 +11,35 @@ import React, { useState } from "react";
 import MultipleSelectPlaceholder from "./components/MultipleSelectPlaceholder";
 import UploadAttachment from "./components/UploadAttachment";
 import MultipleSelectDepartment from "./components/MultipleSelectDepartment";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
-// Define type for each question with multiple options
+// Define interfaces for the data structure
+interface Option {
+  id: string;
+  question_id: string;
+  answer: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface Question {
+  id: string;
+  subject_id: string;
+  question: string;
+  createdAt: string;
+  updatedAt: string;
+  options: Option[];
+}
+
+interface Subject {
+  id: string;
+  subject: string;
+  createdAt: string;
+  updatedAt: string;
+  questions: Question[];
+}
+
 interface CheckboxQuestion {
   question: string;
   options: string[];
@@ -20,15 +47,13 @@ interface CheckboxQuestion {
 
 const CreateTicket = () => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [selectedDepartment, setSelectedDepartment] = useState<string | null>(
-    null
-  );
+  const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null);
   const [checkboxAnswers, setCheckboxAnswers] = useState<Record<string, string[]>>({});
   const [firstName, setFirstName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [description, setDescription] = useState("");
-  const [files, setFiles] = useState<File[]>([]); 
+  const [files, setFiles] = useState<File[]>([]);
 
   // Validation states
   const [errors, setErrors] = useState({
@@ -40,11 +65,30 @@ const CreateTicket = () => {
     description: false,
   });
 
-  // Handle file change from UploadAttachment
+  const { data: queryData, isLoading, error } = useQuery({
+    queryKey: ['subject'],
+    queryFn: () => axios.get("http://localhost:5000/QuestionsandAnswers"),
+  });
+
+  // Transform the backend data into the required format
+  const transformData = (subjects: Subject[] | undefined): Record<string, CheckboxQuestion[]> => {
+    if (!subjects) return {};
+    
+    return subjects.reduce((acc, subject) => {
+      acc[subject?.subject] = subject?.questions?.map(question => ({
+        question: question?.question,
+        options: question?.options?.map(option => option?.answer)
+      }));
+      return acc;
+    }, {} as Record<string, CheckboxQuestion[]>);
+  };
+
+  const questions = transformData(queryData?.data?.data);
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      const selectedFiles = Array.from(event.target.files); // Convert FileList to array
-      setFiles((prevFiles) => [...prevFiles, ...selectedFiles]); // Add new files to the existing ones
+      const selectedFiles = Array.from(event.target.files);
+      setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
     }
   };
 
@@ -59,25 +103,17 @@ const CreateTicket = () => {
   const handleCheckboxChange = (question: string, option: string) => {
     setCheckboxAnswers((prevState) => {
       const newState = { ...prevState };
-
-      // Initialize the question's answers array if it doesn't exist
       if (!newState[question]) {
         newState[question] = [];
       }
-
-      // Check if the option is already selected
       const optionIndex = newState[question].indexOf(option);
-
       if (optionIndex > -1) {
-        // If option is already selected, remove it
         newState[question] = newState[question].filter(
           (item) => item !== option
         );
       } else {
-        // If option is not selected, add it
         newState[question].push(option);
       }
-
       return newState;
     });
   };
@@ -101,43 +137,6 @@ const CreateTicket = () => {
     },
   };
 
-  // Define checkbox questions for each option
-  const questions: Record<string, CheckboxQuestion[]> = {
-    "Software(Node,1Stream, etc)": [
-      {
-        question: "What kind of software issue are you facing?",
-        options: ["Installation", "Configuration", "Performance", "Bug/Crash"],
-      },
-      {
-        question: "Which platform are you using?",
-        options: ["Windows", "macOS", "Linux"],
-      },
-      {
-        question: "Is the issue related to a specific feature?",
-        options: ["Yes", "No"],
-      },
-      {
-        question: "Have you tried restarting the application?",
-        options: ["Yes", "No"],
-      },
-      { question: "Are you using the latest version?", options: ["Yes", "No"] },
-    ],
-    "Hardware(Printer, Monitor, etc)": [
-      {
-        question: "What kind of hardware issue are you facing?",
-        options: ["Not Turning On", "Connectivity", "Performance", "Other"],
-      },
-      {
-        question: "Which hardware are you using?",
-        options: ["Printer", "Monitor", "Keyboard", "Mouse"],
-      },
-      { question: "Is there any physical damage?", options: ["Yes", "No"] },
-      { question: "Have you checked the power cable?", options: ["Yes", "No"] },
-      { question: "Have you updated the drivers?", options: ["Yes", "No"] },
-    ],
-    // other options...
-  };
-
   const handleSubmit = () => {
     const newErrors = {
       firstName: !firstName,
@@ -150,9 +149,7 @@ const CreateTicket = () => {
 
     setErrors(newErrors);
 
-    // Check if there are any errors
-    const hasErrors = Object.values(newErrors).includes(true);
-    if (hasErrors) return; // Don't submit if there are errors
+    if (Object.values(newErrors).includes(true)) return;
 
     const formData = {
       Firstname: firstName,
@@ -162,14 +159,14 @@ const CreateTicket = () => {
       Problem: selectedOption,
       Answers: checkboxAnswers,
       Description: description,
-      Files: files, // Submit multiple files here
+      Files: files,
     };
 
-    // Log the form data to the console
     console.log("Form Data Submitted:", formData);
-    console.log("Checkbox Answers:", checkboxAnswers);
-    console.log("Files Attachment:", files); // Log the array of files
   };
+
+  if (isLoading) return <Typography>Loading...</Typography>;
+  if (error) return <Typography>Error loading data: {error.toString()}</Typography>;
 
   return (
     <Stack mt={10} ml={10}>
@@ -208,17 +205,15 @@ const CreateTicket = () => {
         helperText={errors.email ? "Email is required" : ""}
       />
 
-      {/* Department Selection */}
       <MultipleSelectDepartment onChange={handleDepartmentChange} />
       {errors.department && <FormHelperText error>Department is required</FormHelperText>}
 
-      {/* Issue Selection */}
       <MultipleSelectPlaceholder onChange={handleSelectionChange} />
       {errors.issue && <FormHelperText error>Issue selection is required</FormHelperText>}
 
-      {selectedOption && (
+      {selectedOption && questions[selectedOption] && (
         <>
-          {questions[selectedOption]?.map((q, index) => (
+          {questions[selectedOption].map((q, index) => (
             <Stack key={index} sx={{ ml: 2, mt: 2, width: "98%" }}>
               <Typography variant="h6">{q.question}</Typography>
               {q.options.map((option, optionIndex) => (
@@ -248,7 +243,6 @@ const CreateTicket = () => {
             helperText={errors.description ? "Description is required" : ""}
           />
 
-          {/* Upload Multiple Attachments */}
           <UploadAttachment handleFileChange={handleFileChange} files={files} />
 
           <Stack height={200}>
