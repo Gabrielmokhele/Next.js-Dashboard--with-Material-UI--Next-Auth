@@ -10,8 +10,8 @@ import scss from "./SideMenu.module.scss";
 import { Dashboard } from "@mui/icons-material";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
-import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
-
+import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
+import { useSession } from "next-auth/react";
 import {
   Divider,
   Drawer,
@@ -25,6 +25,8 @@ import {
   useTheme,
 } from "@mui/material";
 import { signOut } from "next-auth/react";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 const drawerWidth = 240;
 
@@ -49,7 +51,14 @@ const closedMixin = (theme: Theme): CSSObject => ({
   },
 });
 
-const menuRouteList = ["", "analytics", "createticket","questions", "settings", ""];
+const menuRouteList = [
+  ".",
+  "analytics",
+  "createticket",
+  "questions",
+  "settings",
+  "",
+];
 const menuListTranslations = [
   "Home",
   "Analytics",
@@ -62,7 +71,7 @@ const menuListIcons = [
   <Dashboard key="dashboard" />,
   <ConfirmationNumberIcon key="ticket" />,
   <EditCalendarIcon key="calendar" />,
-  <QuestionAnswerIcon key="questions"/>,
+  <QuestionAnswerIcon key="questions" />,
   <Settings key="settings" />,
   <ExitToAppIcon key="signout" />,
 ];
@@ -75,12 +84,27 @@ const SideMenu: React.FC<SideMenuProps> = ({ onOpenChange }) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const mobileCheck = useMediaQuery("(min-width: 600px)");
+  const { data: session } = useSession();
+  const [currentUserId, setCurrentUserId] = React.useState<string | null>(null);
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["subjects"],
+    queryFn: () => axios.get("http://localhost:5000/users"),
+  });
+  React.useEffect(() => {
+    if (data?.data?.data && session?.user?.email) {
+      const loggedInUser = data.data.data.find(
+        (user: any) => user.email === session?.user?.email
+      );
+      if (loggedInUser?.id) {
+        setCurrentUserId(loggedInUser.id);
+      }
+    }
+  }, [data, session]);
 
   const handleDrawerToggle = () => {
     const newOpenState = !open;
     setOpen(newOpenState);
-    
-    // Notify parent component about the open state change
     if (onOpenChange) {
       onOpenChange(newOpenState);
     }
@@ -89,12 +113,14 @@ const SideMenu: React.FC<SideMenuProps> = ({ onOpenChange }) => {
   const handleListItemButtonClick = (text: string) => {
     text === "Sign Out" ? signOut() : null;
     setOpen(false);
-    
-    // Notify parent component about the closed state
     if (onOpenChange) {
       onOpenChange(false);
     }
   };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading subjects</div>;
+  if (!currentUserId) return <div>Loading user data...</div>;
 
   return (
     <Drawer
@@ -132,7 +158,11 @@ const SideMenu: React.FC<SideMenuProps> = ({ onOpenChange }) => {
           <ListItem key={text} disablePadding sx={{ display: "block" }}>
             <NextLink
               className={scss.link}
-              href={`/dashboard/${menuRouteList[index]}`}
+              href={
+                menuRouteList[index] === ""
+                  ? `/dashboard/${currentUserId}`
+                  : `/dashboard/${currentUserId}/${menuRouteList[index]}`
+              }
             >
               <ListItemButton
                 onClick={() => handleListItemButtonClick(text)}
@@ -159,7 +189,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ onOpenChange }) => {
                     color: theme.palette.text.primary,
                     opacity: open ? 1 : 0,
                   }}
-                />{" "}
+                />
               </ListItemButton>
             </NextLink>
           </ListItem>

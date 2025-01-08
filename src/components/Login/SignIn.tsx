@@ -14,11 +14,14 @@ import * as Yup from "yup";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { SignInData } from "./types";
+import { useParams } from "next/navigation";
 
 const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string().required("Password is required"),
 });
+
+
 
 const initialValues: SignInData = {
   email: "",
@@ -39,6 +42,9 @@ const textFieldStyles = {
 const SignIn = () => {
   const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
+  // const params = useParams(); 
+  // const userId = params.id; 
+
 
   const handleSignIn = async (
     values: SignInData,
@@ -50,7 +56,7 @@ const SignIn = () => {
         redirect: true,
         email: values.email,
         password: values.password,
-        callbackUrl: "/dashboard",
+        callbackUrl: `/dashboard`,
       });
 
       if (result?.error) {
@@ -60,11 +66,14 @@ const SignIn = () => {
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        router.push("/dashboard");
+        router.push(`/dashboard`);
       }
     }
     actions.setSubmitting(false);
+
   };
+
+ 
 
   return (
     <Paper elevation={3} sx={{ p: 4, width: "100%", maxWidth: 400, borderRadius: 2 }}>

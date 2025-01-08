@@ -1,4 +1,4 @@
-import Dashboard from "./dashboard";
+import Dashboard from "./dashboard/[id]";
 import SideMenu from "../components/SideMenu";
 import { useSession } from 'next-auth/react';
 import Login from "@/components/Login";

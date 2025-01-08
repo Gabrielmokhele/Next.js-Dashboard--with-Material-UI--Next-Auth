@@ -3,10 +3,16 @@ import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Button, Typography } from "@mui/material";
 import CustomizedDialogs from "./components/CustomizedDialogs";
+import { useParams } from "next/navigation";
 
 const Analytics = () => {
   const [selectedRow, setSelectedRow] = React.useState(null);
   const [dialogOpen, setDialogOpen] = React.useState(false);
+   const params = useParams();
+   const userId =  params?.id;
+
+
+  console.log("uuuuuid:",userId);
 
   const buttonStyles = {
     background: "linear-gradient(258deg, #003fe9 0%, #26e6aa 100%)",
@@ -26,7 +32,7 @@ const Analytics = () => {
         return (
           <Button
             variant="text"
-            onClick={() => handleViewClick(params.row)}
+            onClick={() => handleViewClick(params?.row)}
             sx={buttonStyles}
           >
             View
